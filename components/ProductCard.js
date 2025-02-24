@@ -1,13 +1,17 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Button, Alert} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductCard = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.card}>
             <Image source={{uri: 'https://www.babylondrinks.be/wp-content/uploads/2021/10/Gouden-Carolus-Classic-24x33cl.jpg'}} style={styles.image} />
             <Text style={styles.description}>Gouden Carolus Classic - 33cl</Text>
             <Text style={styles.price}>€1.90</Text>
-            <Button title="ONTDEK" color="#ac9c51" onPress={() => Alert.alert("Gouden Carolus!")}/>  
+            <TouchableOpacity onPress={() => navigation.navigate('Details')}>
+                <Text style={{color: '#ac9c51', fontSize: 18, marginTop: 20}}>Bekijk product</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -20,6 +24,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 5,
         padding: 10,
+        backgroundColor: '#212425',
+        borderRadius: 10,
     },
     image:{
         width: 150,
