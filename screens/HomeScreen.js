@@ -9,8 +9,18 @@ export default function HomeScreen({navigation}) {
     <View style={styles.container}>
       <Text style={styles.h1}>Gouden Carolus</Text>
       <StatusBar style="auto" />
-      <ProductCard />
-      <ProductCard />
+      <ProductCard 
+      image='https://www.babylondrinks.be/wp-content/uploads/2021/10/Gouden-Carolus-Classic-24x33cl.jpg'
+      title='Gouden Carolus Classic - 33cl'
+      price='1.90'
+      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Classic - 33cl', price: '1.90'})}
+      />
+      <ProductCard 
+      image='https://www.babylondrinks.be/wp-content/uploads/2021/10/Gouden-Carolus-Classic-24x33cl.jpg'
+      title='Gouden Carolus Tripel - 33cl'
+      price='2.10'
+      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Tripel - 33cl', price: '2.10'})}
+      />
     </View>
   );
 }

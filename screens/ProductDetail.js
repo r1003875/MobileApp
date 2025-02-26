@@ -1,33 +1,41 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import ProductCard from '../components/ProductCard';
 
-export default function Details({navigation}) {
+export default function Details({route}) {
+  const {title, price} = route.params;
+  const [quantity, setQuantity] = useState(1);
+
+  const increaseQuantity = () => setQuantity(quantity + 1);
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Details</Text>
       <StatusBar style="auto" />
-        <Image source={{uri: 'https://www.babylondrinks.be/wp-content/uploads/2021/10/Gouden-Carolus-Classic-24x33cl.jpg'}} style={styles.image} />
-        <Text style={styles.description}>Gouden Carolus Classic - 33cl</Text>
-        <Text style={styles.price}>€1.90</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text style={{color: '#ac9c51', fontSize: 18, marginTop: 20}}>Terug</Text>
-        </TouchableOpacity>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.price}>€{price}</Text>
+        <View>
+          <TouchableOpacity onPress={decreaseQuantity}>
+            <Text style={{color: '#ac9c51', fontSize: 18, marginTop: 20}}>-</Text>
+          </TouchableOpacity>
+          <Text style={{color: '#ffffff'}}>{quantity}</Text>
+          <TouchableOpacity onPress={increaseQuantity}>
+            <Text style={{color: '#ac9c51', fontSize: 18, marginTop: 20}}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={{color: '#ffffff'}}>Totaal: €{quantity * price}</Text>
+
     </View>
   );
 }
 /*
-const DetailScreen = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.h1}>Gouden Carolus</Text>
-      <StatusBar style="auto" />
-      <ProductCard />
-      <ProductCard />
-    </View>
-  );
-}
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Text style={{color: '#ac9c51', fontSize: 18, marginTop: 20}}>Terug</Text>
+        </TouchableOpacity>
 */
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +57,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 10,
   },
-  description: {
+  title: {
       color: '#fffef9',
       fontSize: 18,
   },
