@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import ProductCard from '../components/ProductCard';
 
+import ClassicImage from '../images/GoudenCarolusClassic.jpg';
+import TripelImage from '../images/GoudenCarolusTripel.jpg';
 
 export default function HomeScreen({navigation}) {
   return (
@@ -10,16 +12,16 @@ export default function HomeScreen({navigation}) {
       <Text style={styles.h1}>Gouden Carolus</Text>
       <StatusBar style="auto" />
       <ProductCard 
-      image='https://www.babylondrinks.be/wp-content/uploads/2021/10/Gouden-Carolus-Classic-24x33cl.jpg'
+      image={ClassicImage}
       title='Gouden Carolus Classic - 33cl'
       price='1.90'
-      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Classic - 33cl', price: '1.90'})}
+      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Classic - 33cl', price: '1.90', description: 'Dit Groot Keizersbier uit Mechelen verenigt de warmte van wijn met de frisheid van bier.', image: ClassicImage})}
       />
       <ProductCard 
-      image='https://www.babylondrinks.be/wp-content/uploads/2021/10/Gouden-Carolus-Classic-24x33cl.jpg'
+      image={TripelImage}
       title='Gouden Carolus Tripel - 33cl'
       price='2.10'
-      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Tripel - 33cl', price: '2.10'})}
+      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Tripel - 33cl', price: '2.10', description: 'Gouden Carolus Tripel heeft een complexe en krachtige smaak.', image: TripelImage})}
       />
     </View>
   );
