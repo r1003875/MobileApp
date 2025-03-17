@@ -1,28 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import ProductCard from '../components/ProductCard';
 
 import ClassicImage from '../images/GoudenCarolusClassic.jpg';
 import TripelImage from '../images/GoudenCarolusTripel.jpg';
 
 export default function HomeScreen({navigation}) {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch(
+      "https://api.webflow.com/v2/sites/67a8c8e72d83a860eca1660f/products",
+      {
+        headers: {
+          Authorization:
+          "Bearer b7167c044a7b55734a1d895f86a8bec29e6ecea70bba6d1b3bb74eb3b298aeed"
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => setProducts(
+        data.items.map((item) => ({
+          id: item.product.id,
+          title: item.product.fieldData.name,
+          subtitle: item.product.fieldData.description,
+          price: (item.skus[0]?.fieldData.price.value || 0)/100,
+          image: {url: item.skus[0]?.fieldData["main-image"]?.url},
+        }))
+      ))
+      .catch((err) => console.error("Error:",err));
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Gouden Carolus</Text>
       <StatusBar style="auto" />
-      <ProductCard 
-      image={ClassicImage}
-      title='Gouden Carolus Classic - 33cl'
-      price='1.90'
-      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Classic - 33cl', price: '1.90', description: 'Dit Groot Keizersbier uit Mechelen verenigt de warmte van wijn met de frisheid van bier.', image: ClassicImage})}
-      />
-      <ProductCard 
-      image={TripelImage}
-      title='Gouden Carolus Tripel - 33cl'
-      price='2.10'
-      onPress={() => navigation.navigate('Details', {title: 'Gouden Carolus Tripel - 33cl', price: '2.10', description: 'Gouden Carolus Tripel heeft een complexe en krachtige smaak.', image: TripelImage})}
-      />
+      <ScrollView>
+        {products.map((product) => (
+          <ProductCard 
+            key={product.id}
+            image={product.image}
+            title={product.title}
+            price={product.price}
+            onPress={() => navigation.navigate('Details', product)}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 }

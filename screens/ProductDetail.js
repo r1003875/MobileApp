@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 export default function Details({route}) {
-  const {title, price, description, image} = route.params;
+  const {title, price, subtitle, image} = route.params;
   const [quantity, setQuantity] = useState(1);
 
   const increaseQuantity = () => setQuantity(quantity + 1);
@@ -18,7 +18,7 @@ export default function Details({route}) {
       <StatusBar style="auto" />
         <Image source={image} style={styles.image} />
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.description}>{subtitle}</Text>
         <Text style={styles.price}>€{price}</Text>
         <View>
           <TouchableOpacity onPress={decreaseQuantity}>
