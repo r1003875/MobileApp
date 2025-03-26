@@ -3,11 +3,21 @@ import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import ProductCard from '../components/ProductCard';
 
+import { Picker} from "@react-native-picker/picker"
+/*
 import ClassicImage from '../images/GoudenCarolusClassic.jpg';
 import TripelImage from '../images/GoudenCarolusTripel.jpg';
+*/
+const categoryNames = {
+  "" : "Alle categorieën",
+  "67c2e60f6cbcbf6bb87a0478" : "Dark",
+  "67c2e608ee2195b2ebaad870" : "Blond",
+  "67e40c5625af03d4cc574567" : "Ambrio",
+}
 
 export default function HomeScreen({navigation}) {
   const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   useEffect(() => {
     fetch(
       "https://api.webflow.com/v2/sites/67a8c8e72d83a860eca1660f/products",
@@ -19,28 +29,44 @@ export default function HomeScreen({navigation}) {
       }
     )
       .then((res) => res.json())
-      .then((data) => setProducts(
+      .then((data) => {setProducts(
         data.items.map((item) => ({
           id: item.product.id,
           title: item.product.fieldData.name,
           subtitle: item.product.fieldData.description,
           price: (item.skus[0]?.fieldData.price.value || 0)/100,
-          image: {url: item.skus[0]?.fieldData["main-image"]?.url},
+          image: {uri: item.skus[0]?.fieldData["main-image"]?.url},
+          category: categoryNames[item.product.fieldData.category[0] || "Onbekend"],
+          // category: item.product.fieldData.category.map((id) => categoryNames[id] || "Onbekend"),
         }))
-      ))
+      )})
       .catch((err) => console.error("Error:",err));
   }, []);
+
+  // const filteredProducts = selectedCategory ? products.filter((p) => p.category.includes(selectedCategory)) : products;
+  const filteredProducts = selectedCategory ? products.filter((p) => p.category === selectedCategory) : products;
+
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Gouden Carolus</Text>
       <StatusBar style="auto" />
+      <View>
+        <Picker
+        selectedValue={selectedCategory}
+        onValueChange={setSelectedCategory}
+        style={styles.picker}
+        >
+          <Picker.Item label="Alle categoriën" value="" />
+            {[...new Set(products.map((p) => p.category))].map((category) => (
+              <Picker.Item key={category} label={category} value={category} />
+            ))}
+        </Picker>
+      </View>
       <ScrollView>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard 
             key={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
+            {...product}
             onPress={() => navigation.navigate('Details', product)}
           />
         ))}
@@ -77,5 +103,11 @@ const styles = StyleSheet.create({
     color: '#ac9c51',
     fontSize: 24,
     fontWeight: 'bold',
+  },
+  picker: {
+    color: '#ffffff',
+    backgroundColor: '#333',
+    width: 200,
+    height: 50,
   },
 });
