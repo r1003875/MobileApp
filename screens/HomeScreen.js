@@ -12,7 +12,7 @@ const categoryNames = {
   "" : "Alle categorieën",
   "67c2e60f6cbcbf6bb87a0478" : "Dark",
   "67c2e608ee2195b2ebaad870" : "Blond",
-  "67e40c5625af03d4cc574567" : "Ambrio",
+  "67e40c5625af03d4cc574567" : "Amber",
 }
 
 export default function HomeScreen({navigation}) {
