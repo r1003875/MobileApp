@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import ProductCard from '../components/ProductCard';
+import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import ProductCard from '../components/ProductCard'; 
 
 import { Picker} from "@react-native-picker/picker"
-/*
-import ClassicImage from '../images/GoudenCarolusClassic.jpg';
-import TripelImage from '../images/GoudenCarolusTripel.jpg';
-*/
+
 const categoryNames = {
   "" : "Alle categorieën",
   "67c2e60f6cbcbf6bb87a0478" : "Dark",
@@ -20,8 +17,7 @@ export default function HomeScreen({navigation}) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("price-asc");
-  useEffect(() => {
-    fetch(
+  useEffect(() => {    fetch(
       "https://api.webflow.com/v2/sites/67a8c8e72d83a860eca1660f/products",
       {
         headers: {
@@ -60,7 +56,15 @@ export default function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}>Gouden Carolus</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingHorizontal: 20}}>
+        <Text style={styles.h1}>Gouden Carolus</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Blogposts')} style={styles.blogButton}>
+          <Text style={{ color: '#1f1f1f', fontWeight: 'bold' }}>Blog</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('AboutUs')} style={styles.blogButton}>
+          <Text style={{ color: '#1f1f1f', fontWeight: 'bold' }}>Over ons</Text>
+        </TouchableOpacity>
+      </View>
       <StatusBar style="auto" />
       <TextInput
         style={styles.searchInput}
@@ -126,7 +130,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 50,
-    marginTop: 20,
     gap: 5,
   },
   h1: {
@@ -137,8 +140,8 @@ const styles = StyleSheet.create({
   picker: {
     color: '#ffffff',
     backgroundColor: '#333',
-    width: 200,
-    height: 50,
+    width: 300,
+    height: 60,
     borderRadius: 5,
   },
   searchInput: {
@@ -149,5 +152,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingLeft: 10,
     marginBottom: 10,
+  },
+
+  blogButton: {
+    backgroundColor: '#ac9c51',
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: 'flex-end',
   },
 });
