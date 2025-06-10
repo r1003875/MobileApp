@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 5,
         padding: 10,
-        backgroundColor: '#212425',
-        borderRadius: 10,
+        //backgroundColor: '#212425',
+        backgroundColor: '#333',
         minWidth: 350,
     },
     image:{

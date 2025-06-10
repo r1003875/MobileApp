@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Button } from 'react-native';
 import ProductCard from '../components/ProductCard'; 
+import Nav from '../components/Nav';
 
 import { Picker} from "@react-native-picker/picker"
 
@@ -56,15 +57,8 @@ export default function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingHorizontal: 20}}>
-        <Text style={styles.h1}>Gouden Carolus</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Blogposts')} style={styles.blogButton}>
-          <Text style={{ color: '#1f1f1f', fontWeight: 'bold' }}>Blog</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('AboutUs')} style={styles.blogButton}>
-          <Text style={{ color: '#1f1f1f', fontWeight: 'bold' }}>Over ons</Text>
-        </TouchableOpacity>
-      </View>
+      <Nav />
+      <Text style={styles.h1}>Gouden Carolus</Text>
       <StatusBar style="auto" />
       <TextInput
         style={styles.searchInput}
@@ -73,15 +67,16 @@ export default function HomeScreen({navigation}) {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
+      <View style={styles.pickerContainer}>
       <View>
         <Picker
         selectedValue={selectedCategory}
         onValueChange={setSelectedCategory}
         style={styles.picker}
         >
-          <Picker.Item label="Alle categoriën" value="" />
+          <Picker.Item label="Alle categoriën" value="" style={styles.pickerItem}/>
             {[...new Set(products.map((p) => p.category))].map((category) => (
-              <Picker.Item key={category} label={category} value={category} />
+              <Picker.Item key={category} label={category} value={category} style={styles.pickerItem}/>
             ))}
         </Picker>
       </View>
@@ -90,11 +85,12 @@ export default function HomeScreen({navigation}) {
         selectedValue={sortOption}
         onValueChange={setSortOption}
         style={styles.picker}>
-          <Picker.Item label="Prijs (laag - hoog)" value="price-asc" />
-          <Picker.Item label="Prijs (hoog - laag)" value="price-desc" />
-          <Picker.Item label="Naam (A-Z)" value="name-asc" />
-          <Picker.Item label="Naam (Z-A)" value="name-desc" />
+          <Picker.Item label="Prijs (laag - hoog)" value="price-asc" style={styles.pickerItem}/>
+          <Picker.Item label="Prijs (hoog - laag)" value="price-desc" style={styles.pickerItem}/>
+          <Picker.Item label="Naam (A-Z)" value="name-asc" style={styles.pickerItem}/>
+          <Picker.Item label="Naam (Z-A)" value="name-desc" style={styles.pickerItem}/>
         </Picker>
+      </View>
       </View>
       <ScrollView>
         {sortedProducts.map((product) => (
@@ -140,7 +136,7 @@ const styles = StyleSheet.create({
   picker: {
     color: '#ffffff',
     backgroundColor: '#333',
-    width: 300,
+    width: 150,
     height: 60,
     borderRadius: 5,
   },
@@ -149,15 +145,16 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     width: '90%',
     height: 50,
-    borderRadius: 5,
     paddingLeft: 10,
     marginBottom: 10,
   },
-
-  blogButton: {
-    backgroundColor: '#ac9c51',
-    padding: 10,
-    borderRadius: 5,
-    alignSelf: 'flex-end',
+  pickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    marginBottom: 10,
+  },
+  pickerItem: {
+    fontSize: 14,
   },
 });

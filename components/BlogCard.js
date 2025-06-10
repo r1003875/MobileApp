@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const BlogCard = ({title, image, description, onPress}) => {
+const BlogCard = ({title, image, description, onPress, date}) => {
     const navigation = useNavigation();
     return (
         <View style={styles.card}>
@@ -12,6 +12,7 @@ const BlogCard = ({title, image, description, onPress}) => {
             <TouchableOpacity onPress={onPress}>
                 <Text style={{color: '#ac9c51', fontSize: 18, marginTop: 20}}>Lees meer</Text>
             </TouchableOpacity>
+            
         </View>
     );
 }

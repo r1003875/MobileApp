@@ -35,7 +35,9 @@ export default function Details({route}) {
           </TouchableOpacity>
         </View>
         <Text style={{color: '#ffffff'}}>Totaal: €{quantity * price}</Text>
-
+            <TouchableOpacity onPress={() => alert('Product toegevoegd aan winkelwagentje!')} style={styles.cartButton}>
+              <Text style={styles.cartButtonText}>Voeg toe aan winkelwagentje</Text>
+            </TouchableOpacity>
     </View>
     </ScrollView>
   );
@@ -99,5 +101,17 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  cartButton: {
+    backgroundColor: '#ac9c51',
+    padding: 10,
+    borderRadius: 5,
+    marginVertical: 20,
+    width: '90%',
+    alignItems: 'center',
+  },
+  cartButtonText: {
+    color: '#1f1f1f',
+    fontSize: 18,
   },
 });
