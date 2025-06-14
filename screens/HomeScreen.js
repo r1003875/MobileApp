@@ -7,7 +7,7 @@ import Nav from '../components/Nav';
 import { Picker} from "@react-native-picker/picker"
 
 const categoryNames = {
-  "" : "Alle categorieën",
+  " " : "Alle categorieën",
   "67c2e60f6cbcbf6bb87a0478" : "Dark",
   "67c2e608ee2195b2ebaad870" : "Blond",
   "67e40c5625af03d4cc574567" : "Amber",
@@ -15,7 +15,7 @@ const categoryNames = {
 
 export default function HomeScreen({navigation}) {
   const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(" ");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("price-asc");
   useEffect(() => {    fetch(
@@ -45,7 +45,7 @@ export default function HomeScreen({navigation}) {
   // const filteredProducts = selectedCategory ? products.filter((p) => p.category.includes(selectedCategory)) : products;
   //const filteredProducts = selectedCategory ? products.filter((p) => p.category === selectedCategory) : products;
   const filteredProducts = products.filter((p) => 
-    (selectedCategory === "" || p.category === selectedCategory) && 
+    (selectedCategory === " " || p.category === selectedCategory) && 
     p.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -74,7 +74,7 @@ export default function HomeScreen({navigation}) {
         onValueChange={setSelectedCategory}
         style={styles.picker}
         >
-          <Picker.Item label="Alle categoriën" value="" style={styles.pickerItem}/>
+          <Picker.Item label="Alle categoriën" value=" " style={styles.pickerItem}/>
             {[...new Set(products.map((p) => p.category))].map((category) => (
               <Picker.Item key={category} label={category} value={category} style={styles.pickerItem}/>
             ))}

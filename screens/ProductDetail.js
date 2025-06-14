@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import {useCart} from '../components/CartContext';
 
 export default function Details({route}) {
   const {title, price, subtitle, image} = route.params;
   const [quantity, setQuantity] = useState(1);
+  const {addToCart} = useCart();
 
-  const increaseQuantity = () => setQuantity(quantity + 1);
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1)
+  };
   const decreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
@@ -35,7 +39,7 @@ export default function Details({route}) {
           </TouchableOpacity>
         </View>
         <Text style={{color: '#ffffff'}}>Totaal: €{quantity * price}</Text>
-            <TouchableOpacity onPress={() => alert('Product toegevoegd aan winkelwagentje!')} style={styles.cartButton}>
+            <TouchableOpacity onPress={() => {addToCart(route.params, quantity); alert("Gouden Carolus "+title+" toegevoegd aan kar!")}} style={styles.cartButton}>
               <Text style={styles.cartButtonText}>Voeg toe aan winkelwagentje</Text>
             </TouchableOpacity>
     </View>

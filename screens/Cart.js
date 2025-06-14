@@ -1,18 +1,38 @@
 import React, {use, useEffect, useState} from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import Nav from '../components/Nav';
+import ProductCard from '../components/ProductCard';
+import CartCard from '../components/CartCard';
+import { useCart } from '../components/CartContext';
 
 export default function Cart({navigation}) {
+    const { cartItems, removeFromCart } = useCart();
+    
+    
     return (
         <View style={styles.container}>
             <Nav />
-            <ScrollView style={{flex: 1, backgroundColor: '#1f1f1f'}}>
+            <View style={{flex: 1, backgroundColor: '#1f1f1f'}}>
                 <View style={styles.cartContainer}>
                     <Text style={styles.cartTitle}>Winkelwagentje</Text>
-                    <Text style={styles.cartText}>Je winkelwagentje is momenteel leeg.</Text>
+                    {cartItems.length === 0 ? (
+                        <Text style={styles.cartText}>Je winkelwagentje is momenteel leeg.</Text>
+                    ) : (
+                    <ScrollView>
+                        {cartItems.map((product) => (
+                            <CartCard
+                                key={product.id}
+                                {...product}
+                                onPress={() => removeFromCart(product.id)}
+                            />
+                        ))}
+                        <Text style={styles.cartText}>
+                            Totaal: €{cartItems.reduce((total, item) => total + item.price * (item.quantity || 1), 0).toFixed(2)}
+                        </Text>
+                    </ScrollView>                    
+                    )}
                 </View>
-            </ScrollView>
+            </View>
         </View>
     );
 }
